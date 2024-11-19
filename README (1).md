@@ -5,18 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mensaje Especial</title>
   <style>
-    .message {
-      font-size: 24px;
-      margin: 20px;
-      font-weight: bold;
+    body {
+      font-family: Arial, sans-serif;
       text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 20px;
+      color: #ff69b4;
+    }
+    .message {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 20px;
     }
     .buttons {
       margin-top: 20px;
-      text-align: center;
     }
     .button {
-      font-size: 18px;
+      font-size: 1rem;
       padding: 10px 20px;
       margin: 10px;
       color: white;
@@ -29,41 +38,64 @@
     .button.no {
       background-color: #f44336;
     }
+    img {
+      max-width: 300px;
+      height: auto;
+    }
   </style>
 </head>
 <body>
-  <div style="text-align: center;">
-    <h1>Un Mensaje para Ti MI FUTURA ESPOSITA💓</h1>
-  </div>
+  <h1>Un Mensaje para Ti MI FUTURA ESPOSITA 💓</h1>
   
-  <img src="https://i.imgur.com/JHTocYe.gif" alt="Oso pidiendo perdón" style="display: block; margin: 0 auto;">
+  <img id="gif" src="https://i.imgur.com/JHTocYe.gif" alt="Oso pidiendo perdón">
+
+  <div class="message" id="message">¿ME PERDONAS MI AMORCITA HERMOSA??</div>
   
-  <div class="message">¿ME PERDONAS MI AMORCITA HERMOSA??</div>
-  
-  <div class="buttons">
+  <div class="buttons" id="buttons">
     <a href="#" id="yesButton" class="button">Sí</a>
     <a href="#" id="noButton" class="button no">No</a>
   </div>
 
   <script>
-    // Al hacer clic en el botón "Sí"
-    document.getElementById('yesButton').addEventListener('click', function(event) {
-      event.preventDefault(); // Evita que se siga el enlace
-      // Abre una nueva ventana con el mensaje y el nuevo GIF
-      window.open('data:text/html,<html><body style="text-align: center; font-family: Arial, sans-serif;"><h1>Gracias mi amorcito, te amo y te amaré siempre 💖</h1><img src="https://i.imgur.com/a5aJQvU.gif" alt="Te Amo GIF" style="width: 200px;"><br><p>Te amo muchísimo!</p></body></html>', '_blank');
+    const messageElement = document.getElementById('message');
+    const gifElement = document.getElementById('gif');
+    const buttonsElement = document.getElementById('buttons');
+
+    const states = {
+      initial: {
+        gif: "https://i.imgur.com/JHTocYe.gif",
+        message: "¿ME PERDONAS MI AMORCITA HERMOSA??",
+      },
+      yes: {
+        gif: "https://i.imgur.com/a5aJQvU.gif",
+        message: "Gracias mi amorcito, te amo y te amaré siempre 💖",
+      },
+      no: {
+        gif: "https://i.imgur.com/wXq6hIn.gif",
+        message: "¿Segura?",
+      },
+    };
+
+    document.getElementById('yesButton').addEventListener('click', (event) => {
+      event.preventDefault();
+      updateState("yes");
     });
 
-    // Al hacer clic en el botón "No"
-    let noButtonClickCount = 0; // Contador para aumentar el tamaño de la letra en "No"
-    
-    document.getElementById('noButton').addEventListener('click', function(event) {
-      event.preventDefault(); // Evita que se siga el enlace
-      // Abre una nueva ventana con el mensaje y el nuevo GIF de "No"
-      window.open('data:text/html,<html><body style="text-align: center; font-family: Arial, sans-serif;"><h1>¿Segura?</h1><img src="https://i.imgur.com/wXq6hIn.gif" alt="Seguro GIF" style="width: 200px;"><br><div class="buttons"><a href="#" id="yesButton" class="button">Sí</a><a href="#" id="noButton" class="button no" style="font-size: ' + (18 + noButtonClickCount * 5) + 'px;">No</a></div></body></html>', '_blank');
-      
-      // Aumenta el contador y el tamaño de la fuente
-      noButtonClickCount++;
+    document.getElementById('noButton').addEventListener('click', (event) => {
+      event.preventDefault();
+      updateState("no");
     });
+
+    function updateState(state) {
+      gifElement.src = states[state].gif;
+      messageElement.textContent = states[state].message;
+
+      if (state === "yes") {
+        buttonsElement.style.display = "none"; // Oculta los botones
+      } else {
+        buttonsElement.style.display = "block"; // Muestra los botones
+      }
+    }
   </script>
 </body>
 </html>
